@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanças Festa</title>
+    <link rel="stylesheet" href="../css/cadastroUsuario.css">
+    <script src="../js/click.js"></script>
+    <link rel="stylesheet" href="../css/back.css">
+    <link rel="shortcut icon" href="../img/icone_financa.ico" type="image/x-icon">
+</head>
+<body>
+
+    <div class="back"></div>
+    <button type="button" class="voltar" onclick="voltarFesta()">Voltar</button>
+    <button type="button" class="financas" onclick="financas()">Finanças</button>
+
+    <h1>Cadastre os funcionários da festa</h1>
+
+    <form id="cadastroFuncionarioForm">
+        <input type="text" id="nome" name="nome" placeholder="Digite o nome do Funcionário" required>
+        <select name="opcaoCargo" id="opcaoCargo" required>
+            <option value="Garçom">Garçom</option>
+            <option value="CaixaVolante">Caixa Volante</option>
+            <option value="totem">totem</option>
+        </select>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <section id="funcionarioList">
+        <div class="listaCadastroFuncionarios"><h1>Funcionarios Cadastrados</h1></div>
+
+        <div class="exibirListaFuncionarios">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th>Festa</th>
+                    <th>*</th>
+                </tr>
+            </thead>
+            <tbody id="funcionarioExibicao">
+                
+            </tbody>
+        </table>
+        </div>
+
+    </section>
+
+    <script src="../js/renderer/rendererFuncionario.js"></script>
+
+    <script>
+        window.onload = function(){
+            cadastroFuncionario();
+            exibirFuncionarioLista();
+        }
+    </script>
+    
+</body>
+</html>

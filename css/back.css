@@ -1,0 +1,11 @@
+.back{
+    width: 100%;
+    height: 100vh;
+    background-image: url("../img/fundo_back.png");
+    background-size: cover;
+    background-repeat: none;
+    position: fixed;
+    opacity: 0.3;
+    z-index: -1;
+    top: 0;
+}

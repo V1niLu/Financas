@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanças Festa</title>
+    <link rel="stylesheet" href="../css/cadastroFesta.css">
+    <script src="../js/click.js"></script>
+    <link rel="stylesheet" href="../css/back.css">
+    <link rel="shortcut icon" href="../img/icone_financa.ico" type="image/x-icon">
+</head>
+<body>
+<div class="back"></div>
+    <button type="button" class="voltar" onclick="voltarFesta()">Voltar</button>
+
+    <h1>Cadastro de Festa</h1>
+    <form id="cadastroFestaForm">
+        <input type="text" id="nome" name="nome" placeholder="Digite o nome da festa" required>
+        <input type="date" id="data" name="data" placeholder="Digite a data da festa" required>
+        <input type="text" id="local" name="local" placeholder="Digite o local da festa" required>
+        <button type="submit">Cadastrar Festa</button>
+    </form>
+
+    <div class="listaCadastro"><h1>Festas Cadastradas</h1></div>
+
+    <div class="exibirListaFesta">
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+          <th>Data</th>
+          <th>Cidade</th>
+          <th>*</th>
+        </tr>
+      </thead>
+      <tbody id="festaList">
+
+      </tbody>
+    </table>
+    </div>
+    
+    <script src="../js/renderer/rendererFesta.js"></script>
+
+    <script>
+      cadastroFesta();
+
+      window.onload = function(){
+        exibirFestasLista();
+      }
+
+      if (!window.api) {
+        console.error("❌ window.api não está disponível");
+      }
+
+    </script>
+
+</body>
+</html>

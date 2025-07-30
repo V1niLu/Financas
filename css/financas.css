@@ -1,0 +1,183 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+}
+
+.voltar{
+    padding: 10px 20px;
+    background-color: #6b0099;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    transition: all 0.3s ease;
+}
+
+.addFuncionario{
+    padding: 10px 20px;
+    background-color: #6b0099;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin: 20px auto;
+    transition: all 0.3s ease; 
+    position: absolute;
+    top: 5px;
+    right: 20px;
+}
+
+.dataHoje{
+    margin-top: 20px;
+    font-size: 25px;
+    color: #6b0099;
+    border: none;
+}
+
+.space{
+    height: 30px;
+    width: 50px;
+}
+
+.voltar:hover, .addFuncionario:hover {
+    background-color: #42005e;
+}
+
+.funcionariosPagamentos{
+    width: 95%;
+    height: auto;
+    margin: 10px auto;
+    text-align: left;
+}
+
+.infoFuncionario{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.nomeFuncionario{
+    width: 40%;
+    height: 30px;
+    background-color: white;
+    border: #ececec solid 1px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.cargoFuncionario{
+    width: 13%;
+    height: 30px;
+    background-color: white;
+    border: #ececec solid 1px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.festaFuncionario{
+    width: 15%;
+    height: 30px;
+    background-color: white;
+    border: #ececec solid 1px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.valorFuncionario{
+    width: 30%;
+    height: 30px;
+    background-color: white;
+    border: #ececec solid 1px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.valor7{
+    width: 30%;
+    background-color: #6b0099;
+    color: white;
+    height: 100%;
+    padding: 0 10px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.infoFuncionario input{
+    width: 25px;
+    height: 25px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.infoPagamento{
+    width: 1030px;
+    height: 40px;
+    padding: 20px;
+    display: none;
+    flex-direction: row;
+    gap: 50px;
+    background-color: white;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+.infoPagamentoMostrar{
+    width: 1030px;
+    height: 40px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    background-color: white;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+.divPagamento{
+    width: 220px;
+    height: 100%;
+    text-align: center;
+    margin-top: -10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.divPagamento input{
+    width: 200px;
+    height: 30px;
+    border: solid 1px #b0b0b0;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.fecharCaixa{
+    width: 95%;
+    height: 30px;
+    background-color: #6b0099;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: auto;
+}
+
+.fecharCaixa:hover{
+    background-color: #42005e;
+}

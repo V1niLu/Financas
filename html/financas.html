@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanças Festa</title>
+    <link rel="shortcut icon" href="../img/icone_financa.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/back.css">
+    <script src="../js/click.js"></script>
+    <link rel="stylesheet" href="../css/financas.css">
+</head>
+<body>
+
+    <div class="back"></div>
+    <button type="button" class="voltar" onclick="voltarFesta()">Voltar</button>
+    <button type="button" class="addFuncionario" onclick="addFunc()">Adicionar funcionario</button>
+
+    <input class="dataHoje" type="date" name="data" id="data">
+    <div class="space"></div>
+
+    <div id="exibirFinanca" class="funcionariosPagamentos">
+    </div>
+
+    <div class="fecharCaixa">
+        <h3>fechar Caixa</h3>
+    </div>
+
+    <script src="../js/renderer/rendererFuncionario.js"></script>
+
+    <script>
+        window.onload = function(){
+            exibirFinancas();
+            atualizarData();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+}
+
+h1{
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+h3{
+    font-size: 20px;
+}
+
+.cadastro{
+    width: 40%;
+    height: 40px;
+    border-radius: 5px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: center;
+}
+
+.cadastroBanco{
+    width: auto;
+    padding: 5px 15px;
+    height: 100%;
+    border-radius: 8px;
+    color: #6b0099;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cadastroFuncionario{
+    width: 40%;
+    height: 100%;
+    border-radius: 8px;
+    color: #6b0099;
+    font-size: 18px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cadastroBanco:hover, .cadastroFuncionario:hover{
+    background-color: #6b0099;
+    color: white;
+}
+
+#festaList{
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 50px auto;
+    flex-direction: row;
+    gap: 40px;
+    position: relative;
+}
+
+.containerFesta{
+    width: 200px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    float: left;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.containerFesta:hover{
+    box-shadow: 0 2px 5px rgba(74, 74, 74, 0.44);
+}
+
+.containerFesta h2{
+    color: #6b0099;
+}
+
+.containerFesta h4{
+    margin-top: -5px;
+}
+
+.containerFesta p{
+    margin-top: 15px;
+}

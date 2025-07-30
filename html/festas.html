@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanças Festa</title>
+    <script src="../js/click.js"></script>
+    <script src="../js/renderer/testeRed.js"></script>
+    <link rel="stylesheet" href="../css/festas.css">
+    <link rel="stylesheet" href="../css/back.css">
+    <link rel="shortcut icon" href="../img/icone_financa.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="back"></div>
+    <h1>Escolha uma festa</h1>
+    <h3>Quer adicionar mais festas?</h3>
+    <div class="cadastro">
+        <div class="cadastroBanco" onclick="cadastroBanco()">Cadastrar Banco</div>
+    </div>
+
+
+    <section id="festaList">
+        
+    </section>
+
+    <script src="../js/renderer/rendererFesta.js"></script>
+
+    <script>
+        window.onload = function() {
+            exibirFestas();
+        }
+    </script>
+
+</body>
+</html>
