@@ -7,3 +7,5 @@ Desenvolvido em
 - JAVASCRIPT
 - SQLITE
 - ELECTRON
+
+senha login: admin
