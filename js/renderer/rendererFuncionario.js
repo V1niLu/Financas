@@ -225,7 +225,7 @@ async function exibirFinancas() {
         const v4 = Number(pix.input.value) || 0;
 
         const somaMoney = v1 + v2 + v3 + v4;
-        const soma7 = somaMoney * 0.07;
+        const soma7 = somaMoney * 0.08;
 
         textNodeTotal.nodeValue = "R$ " + somaMoney.toFixed(2) + " ";
 
@@ -296,6 +296,53 @@ function atualizarData(){
 }
 
 
-function fecharCaixa(){
-  
+async function fecharCaixa() {
+  const parametrosFesta = getParamentros();
+  const id_festa = Number(parametrosFesta.id);
+  const dataAtual = getDataAtualFormatada();
+
+  try {
+    const funcionarios = await window.api.getFuncionario(id_festa);
+    const listaPagamentos = [];
+
+    funcionarios.forEach(funcionario => {
+      const id = funcionario.id;
+      const cargo = funcionario.cargo.toLowerCase();
+
+      const dinheiro = parseFloat(document.getElementById(`dinheiro_${id}`)?.value || 0);
+      const credito = parseFloat(document.getElementById(`credito_${id}`)?.value || 0);
+      const debito  = parseFloat(document.getElementById(`debito_${id}`)?.value || 0);
+      const pix     = parseFloat(document.getElementById(`pix_${id}`)?.value || 0);
+
+      const total = dinheiro + credito + debito + pix;
+      const pagamentoDia = (cargo === "garçom") ? total * 0.07 : 0;
+
+      listaPagamentos.push({
+        id_funcionario: id,
+        id_festa: id_festa,                  // <---- Adicionado aqui
+        data_pagamento_dia: dataAtual,
+        pagamento_dia: pagamentoDia,
+        pagamento_total: total,
+        pagamento_dinheiro: dinheiro,
+        pagamento_credito: credito,
+        pagamento_debito: debito,
+        pagamento_pix: pix
+      });
+    });
+
+    // Salvar no banco via preload
+    await window.api.salvarPagamentos(listaPagamentos);
+
+    // Redireciona para o relatório
+    const id = encodeURIComponent(parametrosFesta.id);
+    const nome = encodeURIComponent(parametrosFesta.nome);
+    const data = encodeURIComponent(parametrosFesta.data);
+    const cidade = encodeURIComponent(parametrosFesta.cidade);
+
+    const url = `../html/relatorio.html?id=${id}&nome=${nome}&data=${data}&cidade=${cidade}`;
+    window.location.href = url;
+
+  } catch (error) {
+    console.error("Erro ao fechar caixa:", error);
+  }
 }

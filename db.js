@@ -34,6 +34,7 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS Pagamentos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       id_funcionario INTEGER,
+      id_festa INTEGER,
       data_pagamento_dia DATE,
       pagamento_dia REAL,
       pagamento_total REAL,
@@ -41,7 +42,8 @@ db.serialize(() => {
       pagamento_credito REAL,
       pagamento_debito REAL,
       pagamento_pix REAL,
-      FOREIGN KEY (id_funcionario) REFERENCES Funcionarios(id)
+      FOREIGN KEY (id_funcionario) REFERENCES Funcionarios(id),
+      FOREIGN KEY (id_festa) REFERENCES Festas(id)
     )
   `);
 });

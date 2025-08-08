@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanças Festa</title>
+    <link rel="stylesheet" href="../css/relatorio.css">
+    <link rel="stylesheet" href="../css/back.css">
+    <script src="../js/click.js"></script>
+</head>
+<body>
+
+    <div class="back"></div>
+    <button type="button" class="voltar" onclick="voltarFesta()">Voltar</button>
+    
+        <div class="titulo">
+            <h1>Relatório</h1>
+            <div class="divLista">
+                <select id="nomeBanco"></select>
+                <button type="button" class="botaoListar" onclick="listarPagamentos()">Listar</button>
+            </div>
+            
+        </div>
+
+        <div class="totalPagamento">
+            <h3>Total soma pagamentos: 
+                <span id="soma"></span>
+            </h3>
+            <h3>2%: 
+                <span id="soma2"></span>
+            </h3>
+        </div>
+
+    <div id="containerRelatorio" class="containerRelatorio">
+        
+    </div>
+
+
+    <div class="ePdf" onclick="salvarComoPDF()"><h4>Exportar para PDF</h4></div>
+
+    <script src="../js/renderer/rendererPagamento.js"></script>
+    <script>
+        window.onload = function() {
+            listarBancos();
+            getParamentros();
+            getTotalPagamentos();
+        }
+    </script>
+
+</body>
+</html>

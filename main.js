@@ -1,12 +1,14 @@
 // main.js
-const { app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const db = require('./db'); // importa o banco
+const fs = require('fs');
 
 function createWindow() {
   const win = new BrowserWindow({
     width: 1250,
     height: 800,
+    icon: path.join(__dirname, 'img', 'icone_financa.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -117,5 +119,89 @@ ipcMain.handle('deleteFuncionario', async (event, id) => {
   } catch (error) {
     console.error("Erro ao deletar funcionario:", error);
     throw new Error("Erro ao deletar funcionario no banco de dados");
+  }
+});
+
+ipcMain.handle('salvarPagamentos', async (event, listaPagamentos) => {
+  try {
+    for (const pagamento of listaPagamentos) {
+      const { id_funcionario, id_festa, data_pagamento_dia, pagamento_dia, pagamento_total, pagamento_dinheiro, pagamento_credito, pagamento_debito, pagamento_pix } = pagamento;
+
+
+      const existente = await db.all(`
+        SELECT id FROM Pagamentos WHERE id_funcionario = ? AND data_pagamento_dia = ?
+      `, [id_funcionario, data_pagamento_dia]);
+
+      if (existente.length > 0) {
+        // Atualiza
+        await db.run(`
+        UPDATE Pagamentos SET 
+          pagamento_dia = ?, 
+          pagamento_total = ?, 
+          pagamento_dinheiro = ?, 
+          pagamento_credito = ?, 
+          pagamento_debito = ?, 
+          pagamento_pix = ?, 
+          id_festa = ?
+        WHERE id_funcionario = ? AND data_pagamento_dia = ?
+      `, [pagamento_dia, pagamento_total, pagamento_dinheiro, pagamento_credito, pagamento_debito, pagamento_pix, id_festa, id_funcionario, data_pagamento_dia]);
+
+      } else {
+        // Insere
+        await db.run(`
+        INSERT INTO Pagamentos (
+          id_funcionario, id_festa, data_pagamento_dia, pagamento_dia, 
+          pagamento_total, pagamento_dinheiro, pagamento_credito, 
+          pagamento_debito, pagamento_pix
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, [id_funcionario, id_festa, data_pagamento_dia, pagamento_dia, pagamento_total, pagamento_dinheiro, pagamento_credito, pagamento_debito, pagamento_pix]);
+      }
+    }
+
+    return { status: 'ok' };
+  } catch (error) {
+    console.error("Erro ao salvar pagamentos:", error);
+    throw error;
+  }
+});
+
+ipcMain.handle('getPagamentosDoDia', async (event, id_funcionario, id_festa) => {
+  try {
+    const pagamentos = await db.all(
+      `SELECT * FROM Pagamentos WHERE id_funcionario = ? AND id_festa = ?`,
+      [id_funcionario, id_festa]
+    );
+    return pagamentos;
+  } catch (error) {
+    console.error("Erro ao buscar pagamentos do dia:", error);
+    return [];
+  }
+});
+
+ipcMain.handle('exportar-pdf', async (event) => {
+  const win = event.sender.getOwnerBrowserWindow();
+
+  // Abre janela para o usuário escolher onde salvar
+  const { filePath } = await dialog.showSaveDialog(win, {
+    title: 'Salvar como PDF',
+    defaultPath: 'relatorio.pdf',
+    filters: [{ name: 'PDF Files', extensions: ['pdf'] }]
+  });
+
+  if (!filePath) return;
+
+  try {
+    const pdfBuffer = await win.webContents.printToPDF({
+      marginsType: 0,
+      printBackground: true,
+      printSelectionOnly: false,
+      landscape: false
+    });
+
+    fs.writeFileSync(filePath, pdfBuffer);
+    return { sucesso: true, caminho: filePath };
+  } catch (err) {
+    console.error('Erro ao gerar PDF:', err);
+    return { sucesso: false, erro: err.message };
   }
 });

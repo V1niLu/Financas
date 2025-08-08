@@ -4,8 +4,9 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     const senha = document.getElementById("senha").value.trim();
 
 
-    if (senha !== "") { // Verifica se a senha é diferente Adri0707
-        alert("Senha inválida");
+    if (senha !== "admin") { // Verifica se a senha é diferente admin
+        const menssagem = document.getElementById("menssagem");
+        menssagem.innerText = "Senha Inválida";
     } else {
         window.location.href = "html/festas.html";
     }

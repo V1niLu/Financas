@@ -10,4 +10,7 @@ contextBridge.exposeInMainWorld('api', {
   addFuncionario: (funcionarioData) => ipcRenderer.invoke('addFuncionario', funcionarioData),
   getFuncionario: (id_festa) => ipcRenderer.invoke('getFuncionario', id_festa),
   deleteFuncionario: (id) => ipcRenderer.invoke('deleteFuncionario', id),
+  salvarPagamentos: (dados) => ipcRenderer.invoke('salvarPagamentos', dados),
+  getPagamentosDoDia: (id_funcionario, id_festa) => ipcRenderer.invoke("getPagamentosDoDia", id_funcionario, id_festa),
+  exportarPDF: () => ipcRenderer.invoke('exportar-pdf'),
 });

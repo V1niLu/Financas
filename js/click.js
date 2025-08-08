@@ -9,3 +9,7 @@ function cadastroFunc(){
 function voltarFesta(){
     window.location.href = "../html/festas.html";
 }
+
+function relatorio(){
+    window.location.href = "../html/relatorio.html";
+}

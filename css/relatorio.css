@@ -1,0 +1,150 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.voltar{
+    padding: 10px 20px;
+    background-color: #6b0099;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    transition: all 0.3s ease;
+}
+
+.voltar:hover, .addFuncionario:hover {
+    background-color: #42005e;
+}
+
+.titulo{
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#nomeBanco{
+    width: 300px;
+    height: auto;
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.data{
+    font-size: 25px;
+    color: #6b0099;
+    border: none;
+    background-color: #ffffff00;
+    width: 180px;
+}
+
+.ePdf{
+    width: 150px;
+    height: auto;
+    padding: 10px;
+    background-color: #6b0099;
+    color: white;
+    text-align: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.ePdf:hover{
+    background-color: #530076;
+}
+
+.funcionarios{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+}
+
+.containerRelatorio{
+    width: 95%;
+    height: auto;
+    margin: 10px auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Funcpagamentos{
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.pagamentos table{
+    width: 100%;
+    margin-top: 20px;
+}
+
+.pagamentos th{
+    background-color: #6b0099;
+    color: white;
+    padding: 5px;
+}
+
+.pagamentos tbody{
+    width: 100%;
+}
+
+.pagamentos td{
+    text-align: center;
+}
+
+.divLista{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.botaoListar{
+    width: 100px;
+    height: auto;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    background-color: #6b0099;
+    color: white;
+    border: none;
+}
+
+.botaoListar:hover{
+    background-color: #530076;
+}
+
+.totalPagamento{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#soma, #soma2{
+    font-size: 20px;
+    color: #6b0099;
+}
