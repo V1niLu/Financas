@@ -57,7 +57,7 @@ function formatarMoedaEN(valor) {
 
 async function listarPagamentos() {
   const container = document.getElementById("containerRelatorio");
-  
+
   try {
     const selectBanco = document.getElementById("nomeBanco");
     const id_festa = Number(selectBanco.value);
@@ -65,9 +65,8 @@ async function listarPagamentos() {
       console.log("Selecione uma festa válida.");
       return;
     }
-    
-    const listaFuncionario = await window.api.getFuncionario(id_festa);
 
+    const listaFuncionario = await window.api.getFuncionario(id_festa);
     if (!listaFuncionario || listaFuncionario.length === 0) {
       console.log("Nenhum funcionário encontrado");
       return;
@@ -75,8 +74,16 @@ async function listarPagamentos() {
 
     container.innerHTML = ""; // limpa antes de preencher
 
+    // 🔹 Acumuladores gerais
+    let totalReceita = 0;
+    let geral = { dinheiro: 0, debito: 0, credito: 0, pix: 0 };
+
+    // 🔹 Acumuladores por cargo
+    let garcom = { dinheiro: 0, debito: 0, credito: 0, pix: 0, total: 0 };
+    let caixa  = { dinheiro: 0, debito: 0, credito: 0, pix: 0, total: 0 };
+    let totem  = { dinheiro: 0, debito: 0, credito: 0, pix: 0, total: 0 };
+
     for (const funcionario of listaFuncionario) {
-      // Pega a lista (array) de pagamentos do funcionário
       const listaPagamentos = await window.api.getPagamentosDoDia(funcionario.id, id_festa);
 
       const funcPagamentos = document.createElement("div");
@@ -87,7 +94,6 @@ async function listarPagamentos() {
 
       const h2Nome = document.createElement("h2");
       h2Nome.innerText = funcionario.nome;
-
       const h2Cargo = document.createElement("h2");
       h2Cargo.innerText = funcionario.cargo;
 
@@ -99,11 +105,10 @@ async function listarPagamentos() {
 
       const table = document.createElement("table");
 
-      // Cabeçalho da tabela
+      // Cabeçalho da tabela (ordem invertida)
       const thead = document.createElement("thead");
       const trHeader = document.createElement("tr");
-
-      const headers = ["Data", "Crédito", "Débito", "Dinheiro", "Pix", "Total", "7%"];
+      const headers = ["Data", "Dinheiro", "Débito", "Crédito", "Pix", "Total", "8%", "2%"];
       headers.forEach(text => {
         const th = document.createElement("th");
         th.innerText = text;
@@ -111,10 +116,10 @@ async function listarPagamentos() {
       });
       thead.appendChild(trHeader);
 
-      // Corpo da tabela
       const tbody = document.createElement("tbody");
 
-      // Se listaPagamentos for um array, percorra e crie linhas
+      let somaDinheiro = 0, somaDebito = 0, somaCredito = 0, somaPix = 0, somaTotal = 0;
+
       if (Array.isArray(listaPagamentos) && listaPagamentos.length > 0) {
         for (const pagamento of listaPagamentos) {
           const trBody = document.createElement("tr");
@@ -122,58 +127,126 @@ async function listarPagamentos() {
           const tdData = document.createElement("td");
           tdData.innerText = pagamento.data_pagamento_dia ? formatarDataBR(pagamento.data_pagamento_dia) : "-";
 
-          const tdCredito = document.createElement("td");
-          tdCredito.innerText = formatarMoedaEN(pagamento.pagamento_credito);
+          const tdDinheiro = document.createElement("td");
+          tdDinheiro.innerText = formatarMoedaEN(pagamento.pagamento_dinheiro);
+          somaDinheiro += Number(pagamento.pagamento_dinheiro) || 0;
 
           const tdDebito = document.createElement("td");
           tdDebito.innerText = formatarMoedaEN(pagamento.pagamento_debito);
+          somaDebito += Number(pagamento.pagamento_debito) || 0;
 
-          const tdDinheiro = document.createElement("td");
-          tdDinheiro.innerText = formatarMoedaEN(pagamento.pagamento_dinheiro);
+          const tdCredito = document.createElement("td");
+          tdCredito.innerText = formatarMoedaEN(pagamento.pagamento_credito);
+          somaCredito += Number(pagamento.pagamento_credito) || 0;
 
           const tdPix = document.createElement("td");
           tdPix.innerText = formatarMoedaEN(pagamento.pagamento_pix);
+          somaPix += Number(pagamento.pagamento_pix) || 0;
 
           const tdTotal = document.createElement("td");
           tdTotal.innerText = formatarMoedaEN(pagamento.pagamento_total);
+          somaTotal += Number(pagamento.pagamento_total) || 0;
 
-          const td7 = document.createElement("td");
-          td7.innerText = formatarMoedaEN(pagamento.pagamento_dia);
+          const td8 = document.createElement("td");
+          td8.innerText = formatarMoedaEN(pagamento.pagamento_dia);
 
-          trBody.appendChild(tdData);
-          trBody.appendChild(tdCredito);
-          trBody.appendChild(tdDebito);
-          trBody.appendChild(tdDinheiro);
-          trBody.appendChild(tdPix);
-          trBody.appendChild(tdTotal);
-          trBody.appendChild(td7);
+          const td2 = document.createElement("td");
+          td2.innerText = funcionario.cargo.toLowerCase() === "garçom" ? formatarMoedaEN((pagamento.pagamento_total || 0) * 0.02) : "-";
 
+          trBody.append(tdData, tdDinheiro, tdDebito, tdCredito, tdPix, tdTotal, td8, td2);
           tbody.appendChild(trBody);
         }
-      } else {
-        // Caso não tenha pagamentos, mostra linha dizendo "Nenhum pagamento"
-        const trBody = document.createElement("tr");
-        const tdVazio = document.createElement("td");
-        tdVazio.colSpan = headers.length;
-        tdVazio.innerText = "Nenhum pagamento encontrado.";
-        trBody.appendChild(tdVazio);
-        tbody.appendChild(trBody);
       }
 
-      table.appendChild(thead);
-      table.appendChild(tbody);
+      // Atualiza acumuladores gerais
+      totalReceita += somaTotal;
+      geral.dinheiro += somaDinheiro;
+      geral.debito   += somaDebito;
+      geral.credito  += somaCredito;
+      geral.pix      += somaPix;
 
+      const cargo = funcionario.cargo.toLowerCase();
+      if (cargo === "garçom") {
+        garcom.dinheiro += somaDinheiro;
+        garcom.debito   += somaDebito;
+        garcom.credito  += somaCredito;
+        garcom.pix      += somaPix;
+        garcom.total    += somaTotal;
+      } else if (cargo.includes("caixa")) {
+        caixa.dinheiro += somaDinheiro;
+        caixa.debito   += somaDebito;
+        caixa.credito  += somaCredito;
+        caixa.pix      += somaPix;
+        caixa.total    += somaTotal;
+      } else if (cargo.includes("totem")) {
+        totem.dinheiro += somaDinheiro;
+        totem.debito   += somaDebito;
+        totem.credito  += somaCredito;
+        totem.pix      += somaPix;
+        totem.total    += somaTotal;
+      }
+
+      // Rodapé tabela do funcionário
+      const tfoot = document.createElement("tfoot");
+      const trFooter = document.createElement("tr");
+
+      const tdLabel = document.createElement("td"); tdLabel.colSpan = 1; tdLabel.innerText = "Totais:";
+      const tdDinheiroTotal = document.createElement("td"); tdDinheiroTotal.innerText = formatarMoedaEN(somaDinheiro);
+      const tdDebitoTotal = document.createElement("td"); tdDebitoTotal.innerText = formatarMoedaEN(somaDebito);
+      const tdCreditoTotal = document.createElement("td"); tdCreditoTotal.innerText = formatarMoedaEN(somaCredito);
+      const tdPixTotal = document.createElement("td"); tdPixTotal.innerText = formatarMoedaEN(somaPix);
+      const tdTotalGeral = document.createElement("td"); tdTotalGeral.innerText = formatarMoedaEN(somaTotal);
+      const td8Vazio = document.createElement("td"); td8Vazio.innerText = "-";
+      const td2Vazio = document.createElement("td"); td2Vazio.innerText = "-";
+
+      trFooter.append(tdLabel, tdDinheiroTotal, tdDebitoTotal, tdCreditoTotal, tdPixTotal, tdTotalGeral, td8Vazio, td2Vazio);
+      tfoot.appendChild(trFooter);
+
+      table.append(thead, tbody, tfoot);
       pagamentos.appendChild(table);
       funcPagamentos.appendChild(funcionarios);
       funcPagamentos.appendChild(pagamentos);
       container.appendChild(funcPagamentos);
-
-      getTotalPagamentos();
     }
+
+    // 🔹 Atualiza os elementos do front pelo ID
+    document.getElementById("totalReceita").innerText = formatarMoedaEN(totalReceita);
+
+    // Garçom
+    document.getElementById("dinheiroGarcom").innerText = formatarMoedaEN(garcom.dinheiro);
+    document.getElementById("debitoGarcom").innerText   = formatarMoedaEN(garcom.debito);
+    document.getElementById("creditoGarcom").innerText  = formatarMoedaEN(garcom.credito);
+    document.getElementById("pixGarcom").innerText      = formatarMoedaEN(garcom.pix);
+    document.getElementById("8Garcom").innerText        = formatarMoedaEN(garcom.total * 0.08);
+    document.getElementById("2Garcom").innerText        = formatarMoedaEN(garcom.total * 0.02);
+    document.getElementById("receitaGarcom").innerText  = formatarMoedaEN(garcom.total);
+
+    // Caixa
+    document.getElementById("dinheiroCaixa").innerText  = formatarMoedaEN(caixa.dinheiro);
+    document.getElementById("debitoCaixa").innerText    = formatarMoedaEN(caixa.debito);
+    document.getElementById("creditoCaixa").innerText   = formatarMoedaEN(caixa.credito);
+    document.getElementById("pixCaixa").innerText       = formatarMoedaEN(caixa.pix);
+    document.getElementById("receitaCaixa").innerText   = formatarMoedaEN(caixa.total);
+
+    // Totem
+    document.getElementById("dinheiroTotem").innerText  = formatarMoedaEN(totem.dinheiro);
+    document.getElementById("debitoTotem").innerText    = formatarMoedaEN(totem.debito);
+    document.getElementById("creditoTotem").innerText   = formatarMoedaEN(totem.credito);
+    document.getElementById("pixTotem").innerText       = formatarMoedaEN(totem.pix);
+    document.getElementById("receitaTotem").innerText   = formatarMoedaEN(totem.total);
+
+    // Totais gerais
+    document.getElementById("dinheiroGeral").innerText = formatarMoedaEN(geral.dinheiro);
+    document.getElementById("debitoGeral").innerText   = formatarMoedaEN(geral.debito);
+    document.getElementById("creditoGeral").innerText  = formatarMoedaEN(geral.credito);
+    document.getElementById("pixGeral").innerText      = formatarMoedaEN(geral.pix);
+
   } catch (error) {
     console.log("Erro ao listar pagamentos", error);
   }
 }
+
+
 
 async function salvarComoPDF() {
   const resultado = await window.api.exportarPDF();
@@ -222,20 +295,4 @@ async function calcularSomaTotalPagamentos() {
     console.error("Erro ao calcular soma total da festa selecionada:", error);
     return 0;
   }
-}
-
-function getTotalPagamentos() {
-  calcularSomaTotalPagamentos().then(soma => {
-    const somaElement = document.getElementById("soma");
-    const soma2Element = document.getElementById("soma2");
-
-    if (somaElement && soma2Element) {
-      somaElement.innerText = `R$ ${formatarMoedaEN(soma)}`;
-      soma2Element.innerText = `R$ ${formatarMoedaEN(soma * 0.02)}`;
-    } else {
-      console.error("Elementos de soma não encontrados no DOM.");
-    }
-  }).catch(error => {
-    console.error("Erro ao obter total de pagamentos:", error);
-  });
 }

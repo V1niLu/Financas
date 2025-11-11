@@ -4,7 +4,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     const senha = document.getElementById("senha").value.trim();
 
 
-    if (senha !== "admin") { // Verifica se a senha é diferente admin
+    if (senha !== "Adri0707") {
         const menssagem = document.getElementById("menssagem");
         menssagem.innerText = "Senha Inválida";
     } else {

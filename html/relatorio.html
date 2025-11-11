@@ -22,16 +22,110 @@
             
         </div>
 
+        
+
         <div class="totalPagamento">
-            <h3>Total soma pagamentos: 
-                <span id="soma"></span>
-            </h3>
-            <h3>2%: 
-                <span id="soma2"></span>
-            </h3>
+
+            <div class="containerPagamento">
+                <h1>Receita Geral R$ <span id="totalReceita">00,00</span></h1>
+                    <div class="dGeral">
+                        <div class="dGeralPagamentos">
+                            <h2>Receita Geral Dinheiro</h2>
+                            <h2 class="destaque">R$ <span id="dinheiroGeral">00,00</span></h2>
+                        </div>
+                        <div class="dGeralPagamentos">
+                            <h2>Receita Geral Débito</h2>
+                            <h2 class="destaque">R$ <span id="debitoGeral">00,00</span></h2>
+                        </div>
+                        <div class="dGeralPagamentos">
+                            <h2>Receita Geral Crédito</h2>
+                            <h2 class="destaque">R$ <span id="creditoGeral">00,00</span></h2>
+                        </div>
+                        <div class="dGeralPagamentos">
+                            <h2>Receita Geral Pix</h2>
+                            <h2 class="destaque">R$ <span id="pixGeral">00,00</span></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="garcom">
+            <h2 class="tituloD">Garçom</h2>
+            <div id="relatorioGarcom" class="relatorioD">
+                <div class="divDinheiro">
+                    <h2>Total Dinheiro</h2>
+                    <h2 class="destaque">R$ <span id="dinheiroGarcom">00,00</span></h2>
+                </div>
+                <div class="debitoGarcom">
+                    <h2>Total Débito</h2>
+                    <h2 class="destaque">R$ <span id="debitoGarcom">00,00</span></h2>
+                </div>
+                <div class="creditoGarcom">
+                    <h2>Total Crédito</h2>
+                    <h2 class="destaque">R$ <span id="creditoGarcom">00,00</span></h2>
+                </div>
+                <div class="pixGarcom">
+                    <h2>Total Pix</h2>
+                    <h2 class="destaque">R$ <span id="pixGarcom">00,00</span></h2>
+                </div>
+                <div class="8Garcom">
+                    <h2>Total 8%</h2>
+                    <h2 class="destaque">R$ <span id="8Garcom">00,00</span></h2>
+                </div>
+                <div class="2Garcom">
+                    <h2>Total 2%</h2>
+                    <h2 class="destaque">R$ <span id="2Garcom">00,00</span></h2>
+                </div>
+            </div>
+            <br> <h2>Receita total R$ <span class="destaque" id="receitaGarcom"></span></h2>
+        </div>
+        <div class="caixaVolante">
+            <h2 class="tituloD">Caixa Volante</h2>
+            <div id="relatorioGarcom" class="relatorioD">
+                <div class="divDinheiro">
+                    <h2>Total Dinheiro</h2>
+                    <h2 class="destaque">R$ <span id="dinheiroCaixa">00,00</span></h2>
+                </div>
+                <div class="debitoGarcom">
+                    <h2>Total Débito</h2>
+                    <h2 class="destaque">R$ <span id="debitoCaixa">00,00</span></h2>
+                </div>
+                <div class="creditoGarcom">
+                    <h2>Total Crédito</h2>
+                    <h2 class="destaque">R$ <span id="creditoCaixa">00,00</span></h2>
+                </div>
+                <div class="pixGarcom">
+                    <h2>Total Pix</h2>
+                    <h2 class="destaque">R$ <span id="pixCaixa">00,00</span></h2>
+                </div>
+            </div>
+            <br> <h2>Receita total R$ <span class="destaque" id="receitaCaixa"></span></h2>
+        </div>
+        <div class="totem">
+            <h2 class="tituloD">Totem</h2>
+            <div id="relatorioGarcom" class="relatorioD">
+                <div class="divDinheiro">
+                    <h2>Total Dinheiro</h2>
+                    <h2 class="destaque">R$ <span id="dinheiroTotem">00,00</span></h2>
+                </div>
+                <div class="debitoGarcom">
+                    <h2>Total Débito</h2>
+                    <h2 class="destaque">R$ <span id="debitoTotem">00,00</span></h2>
+                </div>
+                <div class="creditoGarcom">
+                    <h2>Total Crédito</h2>
+                    <h2 class="destaque">R$ <span id="creditoTotem">00,00</span></h2>
+                </div>
+                <div class="pixGarcom">
+                    <h2>Total Pix</h2>
+                    <h2 class="destaque">R$ <span id="pixTotem">00,00</span></h2>
+                </div>
+            </div>
+            <br> <h2>Receita total R$ <span class="destaque" id="receitaTotem"></span></h2>
+        </div>
         </div>
 
     <div id="containerRelatorio" class="containerRelatorio">
+        
         
     </div>
 
@@ -43,7 +137,6 @@
         window.onload = function() {
             listarBancos();
             getParamentros();
-            getTotalPagamentos();
         }
     </script>
 

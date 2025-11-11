@@ -195,7 +195,7 @@ ipcMain.handle('exportar-pdf', async (event) => {
       marginsType: 0,
       printBackground: true,
       printSelectionOnly: false,
-      landscape: false
+      landscape: true
     });
 
     fs.writeFileSync(filePath, pdfBuffer);

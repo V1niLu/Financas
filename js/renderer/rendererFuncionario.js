@@ -211,17 +211,17 @@ async function exibirFinancas() {
         return { div, input };
       }
 
-      // Criando os blocos de pagamento
+      // Criando os blocos de pagamento na ordem certa
       const dinheiro = criarPagamento("Dinheiro", `dinheiro_${funcionario.id}`);
-      const credito = criarPagamento("Crédito", `credito_${funcionario.id}`);
-      const debito = criarPagamento("Débito", `debito_${funcionario.id}`);
-      const pix = criarPagamento("Pix", `pix_${funcionario.id}`);
+      const debito   = criarPagamento("Débito", `debito_${funcionario.id}`);
+      const credito  = criarPagamento("Crédito", `credito_${funcionario.id}`);
+      const pix      = criarPagamento("Pix", `pix_${funcionario.id}`);
 
       // Evento para calcular a soma dos valores
       function calcularSoma() {
         const v1 = Number(dinheiro.input.value) || 0;
-        const v2 = Number(credito.input.value) || 0;
-        const v3 = Number(debito.input.value) || 0;
+        const v2 = Number(debito.input.value) || 0;
+        const v3 = Number(credito.input.value) || 0;
         const v4 = Number(pix.input.value) || 0;
 
         const somaMoney = v1 + v2 + v3 + v4;
@@ -234,9 +234,10 @@ async function exibirFinancas() {
         }
       }
 
+      // Listeners na nova ordem
       dinheiro.input.addEventListener("input", calcularSoma);
-      credito.input.addEventListener("input", calcularSoma);
       debito.input.addEventListener("input", calcularSoma);
+      credito.input.addEventListener("input", calcularSoma);
       pix.input.addEventListener("input", calcularSoma);
 
       // Evento para mostrar/ocultar pagamento ao marcar o checkbox
@@ -267,9 +268,10 @@ async function exibirFinancas() {
 
       divfuncionarios.appendChild(divInfoFuncionarios);
 
+      // Exibe os pagamentos na ordem correta
       divInfoPagamento.appendChild(dinheiro.div);
-      divInfoPagamento.appendChild(credito.div);
       divInfoPagamento.appendChild(debito.div);
+      divInfoPagamento.appendChild(credito.div);
       divInfoPagamento.appendChild(pix.div);
 
       divfuncionarios.appendChild(divInfoPagamento);
@@ -283,23 +285,24 @@ async function exibirFinancas() {
   }
 }
 
-function getDataAtualFormatada() {
-  const hoje = new Date();
-  const ano = hoje.getFullYear();
-  const mes = String(hoje.getMonth() + 1).padStart(2, '0'); // meses começam do 0
-  const dia = String(hoje.getDate()).padStart(2, '0');
-  return `${ano}-${mes}-${dia}`;
-}
 
-function atualizarData(){
-  document.getElementById("data").value = getDataAtualFormatada();
-}
+// function getDataAtualFormatada() {
+//   const hoje = new Date();
+//   const ano = hoje.getFullYear();
+//   const mes = String(hoje.getMonth() + 1).padStart(2, '0'); // meses começam do 0
+//   const dia = String(hoje.getDate()).padStart(2, '0') - 1;
+//   return `${ano}-${mes}-${dia}`;
+// }
+
+// function atualizarData(){
+//   document.getElementById("data").value = getDataAtualFormatada();
+// }
 
 
 async function fecharCaixa() {
   const parametrosFesta = getParamentros();
   const id_festa = Number(parametrosFesta.id);
-  const dataAtual = getDataAtualFormatada();
+  const dataAtual = document.getElementById("data").value;
 
   try {
     const funcionarios = await window.api.getFuncionario(id_festa);
@@ -315,7 +318,7 @@ async function fecharCaixa() {
       const pix     = parseFloat(document.getElementById(`pix_${id}`)?.value || 0);
 
       const total = dinheiro + credito + debito + pix;
-      const pagamentoDia = (cargo === "garçom") ? total * 0.07 : 0;
+      const pagamentoDia = (cargo === "garçom") ? total * 0.08 : 0;
 
       listaPagamentos.push({
         id_funcionario: id,
